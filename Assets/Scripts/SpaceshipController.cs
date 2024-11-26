@@ -8,6 +8,7 @@ public class SpaceshipController : MonoBehaviour
     [SerializeField] private float rotationSpeed = 5f;
 
     private Rigidbody2D _rb;
+    private Vector2 _previousPosition; // Guarda la posición previa para revertir en caso de colisión
 
     private void Start()
     {
@@ -19,8 +20,11 @@ public class SpaceshipController : MonoBehaviour
         Vector2 movement = MovementLogic();
         _rb.velocity = movement;
         RotateTowardsDirection(movement);
+
+        // Guarda la posición actual como la previa antes de mover la nave
+        _previousPosition = transform.position;
     }
-    
+
     private Vector2 MovementLogic()
     {
         var horizontal = InputManager.Instance.GetHorizontalMovement();
@@ -48,4 +52,17 @@ public class SpaceshipController : MonoBehaviour
         }
     }
 
+    // Detecta colisiones con objetos que tienen el tag "Limite"
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("limite"))
+        {
+            // Si colisiona con un límite, regresa la nave a su posición previa
+            Debug.Log("Colision con limite detectada.");
+            Vector3 localOffset = new Vector3(0f, -1f, 0f);
+            transform.position = transform.TransformPoint(localOffset);
+            transform.rotation = Quaternion.Euler(0, 0, transform.eulerAngles.z + 180f);
+            _rb.velocity = Vector2.zero; // Detén el movimiento
+        }
+    }
 }
