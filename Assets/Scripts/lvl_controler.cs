@@ -10,7 +10,7 @@ public class LvlControler : MonoBehaviour
     public void AddExperiencia(float value) // Método para sumar experiencia
     {
         experiencia += value;
-
+        Debug.Log("experiencia");
         // Comprobar y actualizar el nivel según la experiencia acumulada
         switch (nivel)
         {

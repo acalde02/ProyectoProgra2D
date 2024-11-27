@@ -4,7 +4,7 @@ public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed;
     //[SerializeField] private float lifeTime;
-    [SerializeField] private int damage = 5;
+    [SerializeField] private float damage = 5;
     
     [SerializeField] private GameObject projectile;
     [SerializeField] private GameObject explosion;
@@ -35,9 +35,12 @@ public class Projectile : MonoBehaviour
     {
         if (other.CompareTag("asteroide"))
         {
-            asteroide_logica asteroidScript = other.GetComponent<asteroide_logica>();
-            asteroide_logica.setVida(); //arreglar para cambiar la vida y restarle el daño de la bala y si es menor a 0 que se destruya al momento y le sume xp al jugador
-            Invoke(nameof(DestroyAfterDelay), 0.05f);
+            asteroide_logica asteroidScript = other.GetComponent<asteroide_logica>(); //cojemos el script
+            if (asteroidScript != null)
+            {
+                asteroidScript.hacerDanio(damage);
+                Invoke(nameof(DestroyAfterDelay), 0.05f); //mandamos destruir la bala
+            }
         }
         else
         {

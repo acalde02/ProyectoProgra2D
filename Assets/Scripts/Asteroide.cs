@@ -30,7 +30,7 @@ public class Asteroide : MonoBehaviour
             if (asteroidScript != null)
             {
                 asteroidScript.setPuntos = Mathf.RoundToInt(randomScale * puntos_base);
-                asteroidScript.setVida = Mathf.RoundToInt(randomScale * vida_base);
+                asteroidScript.Vida = Mathf.RoundToInt(randomScale * vida_base);
             }
             Rigidbody rb = asteroid.GetComponent<Rigidbody>();
             if (rb != null)
