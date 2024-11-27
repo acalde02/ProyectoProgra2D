@@ -2,15 +2,10 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float speed;
-<<<<<<< Updated upstream
-    //[SerializeField] private float lifeTime;
-    [SerializeField] private float damage = 5;
-=======
-    [SerializeField] private float lifeTime;
-    [SerializeField] private int damage;
->>>>>>> Stashed changes
-    
+    [SerializeField] private float speed = 10f;
+    [SerializeField] private float lifeTime = 3f;
+    [SerializeField] private int damage = 10;
+
     [SerializeField] private GameObject projectile;
     [SerializeField] private GameObject explosion;
 
@@ -19,6 +14,7 @@ public class Projectile : MonoBehaviour
 
     private Rigidbody2D _rb;
     private Animator _anim;
+    private bool _isDestroyed; // Controla si el proyectil ya fue destruido
 
     private void Awake()
     {
@@ -26,66 +22,70 @@ public class Projectile : MonoBehaviour
         _anim = GetComponent<Animator>();
     }
 
-    private void Start()
-    {
-        ActivateProjectile();
-    }
-
     private void OnEnable()
     {
         ActivateProjectile();
+        _isDestroyed = false; // Resetear estado
+        Invoke(nameof(DestroyProjectile), lifeTime); // Destruir automáticamente después del tiempo de vida
+    }
+
+    private void OnDisable()
+    {
+        CancelInvoke(nameof(DestroyProjectile)); // Cancelar destrucción automática si se desactiva
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-<<<<<<< Updated upstream
+        if (_isDestroyed) return; // Evitar múltiples interacciones simultáneas
+
         if (other.CompareTag("asteroide"))
         {
-            asteroide_logica asteroidScript = other.GetComponent<asteroide_logica>(); //cojemos el script
+            asteroide_logica asteroidScript = other.GetComponent<asteroide_logica>();
             if (asteroidScript != null)
             {
                 asteroidScript.hacerDanio(damage);
-                Invoke(nameof(DestroyAfterDelay), 0.05f); //mandamos destruir la bala
             }
-        }
-        else
-        {
-            Debug.Log("La bala ha activado el trigger");
             DestroyProjectile();
         }
-    }
 
-    private void DestroyAfterDelay() //esperar antes de destruir para que de tiempo a interactuar con las fisicas del asteroide
-    {
-        Debug.Log("La bala ha activado el trigger despu�s de esperar");
-
-=======
         if (other.CompareTag("Player"))
         {
             other.GetComponent<Health>()?.TakeDamage(damage);
-        };
+            DestroyProjectile();
+        }
+
         if (other.CompareTag("Enemy"))
         {
             other.GetComponent<EnemyController>()?.TakeDamage(damage);
+            DestroyProjectile();
         }
         
->>>>>>> Stashed changes
-        DestroyProjectile();
     }
 
     public void DestroyProjectile()
     {
-        _rb.velocity = Vector2.zero;
-        projectile.SetActive(false);
-        explosion.SetActive(true);
-        _anim.Play(_explosionHash);
+        if (_isDestroyed) return; // Evitar múltiples llamadas a la destrucción
+
+        _isDestroyed = true;
+        _rb.velocity = Vector2.zero; // Detener el movimiento
+        projectile.SetActive(false); // Desactivar el modelo del proyectil
+        explosion.SetActive(true); // Activar la explosión
+        _anim.Play(_explosionHash); // Reproducir animación de explosión
+
+        // Esperar a que termine la animación de explosión antes de desactivar el GameObject
+        Invoke(nameof(DeactivateProjectile), 0.5f); // Ajusta el tiempo según la duración de la animación
     }
 
     private void ActivateProjectile()
     {
-        projectile.SetActive(true);
-        explosion.SetActive(false);
-        _anim.Play(_explosionIdleHash);
-        _rb.velocity = transform.up * speed;
+        projectile.SetActive(true); // Activar el modelo del proyectil
+        explosion.SetActive(false); // Desactivar la explosión
+        _anim.Play(_explosionIdleHash); // Reproducir animación inicial
+        _rb.velocity = transform.up * speed; // Configurar velocidad del proyectil
+    }
+
+    private void DeactivateProjectile()
+    {
+        gameObject.SetActive(false); // Desactivar el objeto para reutilizarlo en el pool
     }
 }
