@@ -6312,8 +6312,8 @@ MonoBehaviour:
   spawnArea: {x: 33, y: 33}
   sizeRange: {x: 1, y: 4}
   asteroidContainer: {fileID: 1712087096}
-  vida: 20
-  puntos: 20
+  vida_base: 15
+  puntos_base: 10
 --- !u!1 &1172372069
 GameObject:
   m_ObjectHideFlags: 0
@@ -6326,6 +6326,7 @@ GameObject:
   - component: {fileID: 1172372073}
   - component: {fileID: 1172372072}
   - component: {fileID: 1172372071}
+  - component: {fileID: 1172372074}
   m_Layer: 0
   m_Name: asteroide
   m_TagString: Untagged
@@ -6462,6 +6463,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1172372074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1172372069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89db2efaa81fc5844a9067a06ad0972a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vida: 0
+  puntos: 0
 --- !u!1 &1175345343
 GameObject:
   m_ObjectHideFlags: 0

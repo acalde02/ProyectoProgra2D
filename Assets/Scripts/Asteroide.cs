@@ -5,12 +5,12 @@ using UnityEngine;
 public class Asteroide : MonoBehaviour
 {
     public GameObject prefapasteroide;
-    public int numeroAsteroides = 10; 
-    public Vector2 spawnArea = new Vector2(33f, 33f);
-    public Vector2 sizeRange = new Vector2(0.5f, 2f);
+    [SerializeField] private int numeroAsteroides = 10;
+    [SerializeField] private Vector2 spawnArea = new Vector2(33f, 33f);
+    [SerializeField] private Vector2 sizeRange = new Vector2(0.5f, 2f);
     public Transform asteroidContainer;
-    [SerializeField] private float vida = 20;
-    [SerializeField] public float puntos = 20;
+    [SerializeField] private float vida_base = 15;
+    [SerializeField] private float puntos_base = 10;
     void Start()
     {
         SpawnAsteroides();
@@ -26,10 +26,11 @@ public class Asteroide : MonoBehaviour
             float randomScale = Random.Range(sizeRange.x, sizeRange.y);
             asteroid.transform.parent = asteroidContainer;
             asteroid.transform.localScale = new Vector3(randomScale, randomScale, randomScale);
-            Asteroide asteroidScript = asteroid.GetComponent<Asteroide>();
+            asteroide_logica asteroidScript = asteroid.GetComponent<asteroide_logica>();
             if (asteroidScript != null)
             {
-                asteroidScript.puntos = Mathf.RoundToInt(randomScale * 10); 
+                asteroidScript.setPuntos = Mathf.RoundToInt(randomScale * puntos_base);
+                asteroidScript.setVida = Mathf.RoundToInt(randomScale * vida_base);
             }
             Rigidbody rb = asteroid.GetComponent<Rigidbody>();
             if (rb != null)
