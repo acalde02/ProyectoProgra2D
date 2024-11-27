@@ -1,93 +1,186 @@
-using Unity.VisualScripting;
 using UnityEngine;
+using System.Collections;
+using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    [Header("Enemy Settings")]
-    [SerializeField] private float moveSpeed = 2f;       // Velocidad de movimiento
-    [SerializeField] private float stopDistance = 3f;    // Distancia mínima para detenerse
-    [SerializeField] private float shootRange = 5f;      // Rango máximo para disparar
-    [SerializeField] private float fireDelay = 3f;       // Delay entre disparos
-    [SerializeField] private GameObject bulletPrefab;    // Prefab de la bala
-    [SerializeField] private Transform firePoint;        // Punto desde donde dispara
+    [Header("Enemy Movement Settings")]
+    [SerializeField] private float retreatDistance = 1f;    // Distancia para retroceder si está demasiado cerca
+    [SerializeField] private float moveSpeed = 3.5f;        // Velocidad del enemigo (NavMeshAgent)
 
+    [Header("Enemy Shooting Settings")]
+    [SerializeField] private Transform spawnPoint;          // Punto desde donde se disparan las balas
+    [SerializeField] private GameObject bulletPrefab;       // Prefab de la bala
+    [SerializeField] private float shootRange = 5f;         // Rango máximo para disparar
+    [SerializeField] private float fireRate = 1.5f;        // Tiempo entre disparos
+    [SerializeField] private float projectileLifeTime, despawnLifetime = 2f;
+    
+    [Header("Projectile Pool Settings")]
+    [SerializeField] private Transform projectilePool;      // Pool de proyectiles
+    [SerializeField] private Transform activeProjectilePool; // Pool de proyectiles activos
+    
+    [Header ("Health Settings")]
+    [SerializeField] private int maxHealth = 100;
+    [SerializeField] FloatingHealthBar healthBar;
+    private int currentHealth;
 
-    private Rigidbody2D _rb;
-    private Transform player;                            // Referencia al jugador
-    private float nextFireTime;                          // Tiempo para el siguiente disparo
+    private NavMeshAgent _agent;
+    private Transform _player;
+    private float _nextFireTime;
+    private bool _canSpawn = true;
+    
+    
+    
 
     private void Start()
     {
-        _rb = GetComponent<Rigidbody2D>();
-        // Encuentra al jugador en la escena (asegúrate de que tenga la etiqueta "Player")
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        // Inicializa el NavMeshAgent
+        _agent = GetComponent<NavMeshAgent>();
+        _agent.updateRotation = false;
+        _agent.updateUpAxis = false;
+        _agent.speed = moveSpeed; // Configurar velocidad mediante SerializeField
+        healthBar = GetComponentInChildren<FloatingHealthBar>();
+        currentHealth = maxHealth;
+
+        // Encuentra al jugador
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (playerObject != null)
+        {
+            _player = playerObject.transform;
+        }
+        else
+        {
+            Debug.LogError("No se encontró un objeto con la etiqueta 'Player'.");
+        }
+
+        // Asegura que el enemigo esté sobre el NavMesh
+        EnsureAgentOnNavMesh();
     }
 
     private void Update()
     {
-        if (player == null) return;
+        if (_player == null || !_agent.isOnNavMesh) return;
 
-        // Siempre mirar al jugador
-        RotateTowardsPlayer();
+        // Calcular la distancia al jugador
+        float distanceToPlayer = Vector3.Distance(transform.position, _player.position);
 
-        // Comprobar la distancia al jugador
-        float distanceToPlayer = Vector2.Distance(transform.position, player.position);
-
-        if (distanceToPlayer > stopDistance && distanceToPlayer <= shootRange)
+        if (distanceToPlayer > retreatDistance)
         {
-            // Si está entre stopDistance y shootRange, moverse hacia el jugador
-            MoveTowardsPlayer();
+            // Moverse hacia el jugador
+            _agent.SetDestination(_player.position);
         }
-        else if (distanceToPlayer <= stopDistance)
+        else
         {
-            // Si está dentro de stopDistance, detenerse
-            StopMovement();
+            // Retroceder si está demasiado cerca
+            RetreatFromPlayer();
         }
 
-        // Solo dispara si está dentro del rango de disparo
+        // Disparar si está en rango
         if (distanceToPlayer <= shootRange)
         {
-            Shoot();
+            ShootAtPlayer();
         }
-    }
 
-    private void MoveTowardsPlayer()
-    {
-        // Dirección hacia el jugador
-        Vector2 direction = (player.position - transform.position).normalized;
-
-        // Moverse hacia el jugador
-        transform.position = Vector2.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
-    }
-
-    private void StopMovement()
-    {
-        // Detener al enemigo (esto mantiene su posición)
-        _rb.velocity = Vector2.zero;
+        // Rotar hacia el jugador
+        RotateTowardsPlayer();
     }
 
     private void RotateTowardsPlayer()
     {
-        // Dirección hacia el jugador
-        Vector2 direction = player.position - transform.position;
+        if (_player == null) return;
 
-        // Calcula el ángulo hacia el jugador
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        // Calcula la dirección hacia el jugador
+        Vector2 direction = _player.position - transform.position;
 
-        // Aplica la rotación en el eje Z
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        // Calcula el ángulo
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 110f;
+
+        // Aplica la rotación al enemigo
+        transform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 
-    private void Shoot()
+    private void ShootAtPlayer()
     {
-        // Solo dispara si ha pasado suficiente tiempo desde el último disparo
-        if (Time.time >= nextFireTime)
-        {
-            // Instancia la bala desde el firePoint en la dirección actual
-            Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        if (!_canSpawn) return;
 
-            // Actualiza el tiempo del próximo disparo
-            nextFireTime = Time.time + fireDelay;
+        _canSpawn = false;
+        StartCoroutine(SpawnCooldown());
+
+        GameObject projectile;
+
+        if (projectilePool.childCount <= 0)
+        {
+            // Aquí se asegura que la rotación coincida con el spawnPoint
+            projectile = Instantiate(bulletPrefab, spawnPoint.position, spawnPoint.rotation);
         }
+        else
+        {
+            projectile = projectilePool.GetChild(0).gameObject;
+            projectile.transform.position = spawnPoint.position;
+            projectile.transform.rotation = spawnPoint.rotation; // Ajustar la rotación aquí
+            projectile.SetActive(true);
+        }
+
+        projectile.transform.SetParent(activeProjectilePool);
+        StartCoroutine(DestroyProjectile(projectile.GetComponent<Projectile>()));
+    }
+
+
+
+    private IEnumerator SpawnCooldown()
+    {
+        yield return new WaitForSeconds(fireRate);
+        _canSpawn = true;
+    }
+
+    private IEnumerator DestroyProjectile(Projectile projectile)
+    {
+        yield return new WaitForSeconds(projectileLifeTime);
+        projectile.DestroyProjectile();
+        yield return new WaitForSeconds(despawnLifetime);
+        projectile.gameObject.SetActive(false);
+        projectile.transform.SetParent(projectilePool);
+    }
+
+    private void RetreatFromPlayer()
+    {
+        Vector3 retreatDirection = (transform.position - _player.position).normalized;
+        Vector3 retreatPosition = transform.position + retreatDirection * retreatDistance;
+
+        // Mover al enemigo a la posición de retirada
+        _agent.SetDestination(retreatPosition);
+    }
+
+    private void EnsureAgentOnNavMesh()
+    {
+        if (!_agent.isOnNavMesh)
+        {
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(transform.position, out hit, 10f, NavMesh.AllAreas))
+            {
+                transform.position = hit.position;
+                _agent.enabled = true;
+            }
+            else
+            {
+                Debug.LogError($"El agente {gameObject.name} no está sobre el NavMesh y no se encontró un punto cercano.");
+                _agent.enabled = false;
+            }
+        }
+    }
+    
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        healthBar.UpdateHealthBar(currentHealth, maxHealth);
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+    
+    private void Die()
+    {
+        // Funcion al morir
     }
 }

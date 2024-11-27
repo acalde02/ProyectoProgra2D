@@ -3,8 +3,13 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [SerializeField] private float speed;
+<<<<<<< Updated upstream
     //[SerializeField] private float lifeTime;
     [SerializeField] private float damage = 5;
+=======
+    [SerializeField] private float lifeTime;
+    [SerializeField] private int damage;
+>>>>>>> Stashed changes
     
     [SerializeField] private GameObject projectile;
     [SerializeField] private GameObject explosion;
@@ -33,6 +38,7 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+<<<<<<< Updated upstream
         if (other.CompareTag("asteroide"))
         {
             asteroide_logica asteroidScript = other.GetComponent<asteroide_logica>(); //cojemos el script
@@ -53,6 +59,17 @@ public class Projectile : MonoBehaviour
     {
         Debug.Log("La bala ha activado el trigger después de esperar");
 
+=======
+        if (other.CompareTag("Player"))
+        {
+            other.GetComponent<Health>()?.TakeDamage(damage);
+        };
+        if (other.CompareTag("Enemy"))
+        {
+            other.GetComponent<EnemyController>()?.TakeDamage(damage);
+        }
+        
+>>>>>>> Stashed changes
         DestroyProjectile();
     }
 

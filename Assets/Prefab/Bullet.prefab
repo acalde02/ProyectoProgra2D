@@ -134,6 +134,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
+<<<<<<< Updated upstream
+=======
+  lifeTime: 5
+>>>>>>> Stashed changes
   damage: 5
   projectile: {fileID: 70719023289257485}
   explosion: {fileID: 8783536917560512420}
