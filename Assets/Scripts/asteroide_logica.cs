@@ -13,8 +13,8 @@ public class asteroide_logica : MonoBehaviour
     public float setPuntos{
         set { puntos = value; }
     }
-    public float setVida
-    {
+    public float setVida{
         set { vida = value; }
     }
+
 }
