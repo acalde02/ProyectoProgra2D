@@ -53,8 +53,9 @@ public class SpaceshipController : MonoBehaviour
     }
 
     // Detecta colisiones con objetos que tienen el tag "Limite"
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
+     
         if (collision.gameObject.CompareTag("limite"))
         {
             // Si colisiona con un límite, regresa la nave a su posición previa
@@ -64,5 +65,14 @@ public class SpaceshipController : MonoBehaviour
             transform.rotation = Quaternion.Euler(0, 0, transform.eulerAngles.z + 180f);
             _rb.velocity = Vector2.zero; // Detén el movimiento
         }
+        /*if ((collision.gameObject.CompareTag("asteroide"))){
+           
+            Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                Vector3 pushDirection = collision.transform.position - transform.position;
+                rb.AddForce(pushDirection.normalized * 0.2f, ForceMode2D.Impulse);
+            }
+        }*/
     }
 }
