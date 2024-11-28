@@ -58,12 +58,24 @@ public class SpaceshipController : MonoBehaviour
      
         if (collision.gameObject.CompareTag("limite"))
         {
-            // Si colisiona con un límite, regresa la nave a su posición previa
-            Debug.Log("Colision con limite detectada.");
-            Vector3 localOffset = new Vector3(0f, -1f, 0f);
-            transform.position = transform.TransformPoint(localOffset);
-            transform.rotation = Quaternion.Euler(0, 0, transform.eulerAngles.z + 180f);
-            _rb.velocity = Vector2.zero; // Detén el movimiento
+            GameObject limite = collision.gameObject;
+            if(limite.name == "limite_abajo"){
+                transform.position = new Vector2(transform.position.x, 15.25f);
+            }
+            if (limite.name == "limite_arriba")
+            {
+                transform.position = new Vector2(transform.position.x, -10f);
+            }
+            if (limite.name == "limite_derecho")
+            {
+                transform.position = new Vector2(20f, transform.position.y);
+            }
+            if (limite.name == "limite_derecho")
+            {
+                transform.position = new Vector2(-18f, transform.position.y);
+            }
+
+
         }
         /*if ((collision.gameObject.CompareTag("asteroide"))){
            
