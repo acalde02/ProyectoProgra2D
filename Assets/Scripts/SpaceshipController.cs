@@ -59,20 +59,21 @@ public class SpaceshipController : MonoBehaviour
         if (collision.gameObject.CompareTag("limite"))
         {
             GameObject limite = collision.gameObject;
-            if(limite.name == "limite_abajo"){
-                transform.position = new Vector2(transform.position.x, 15.25f);
+            if (limite.name == "limite_abajo")
+            {
+                transform.position = new Vector2(transform.position.x, 10f);
             }
-            if (limite.name == "limite_arriba")
+            else if (limite.name == "limite_arriba")
             {
                 transform.position = new Vector2(transform.position.x, -10f);
             }
-            if (limite.name == "limite_derecho")
+            else if (limite.name == "limite_derecho")
+            {
+                transform.position = new Vector2(-18f, transform.position.y); // Se corrigió la condición repetida
+            }
+            else if (limite.name == "limite_izquierdo")
             {
                 transform.position = new Vector2(20f, transform.position.y);
-            }
-            if (limite.name == "limite_derecho")
-            {
-                transform.position = new Vector2(-18f, transform.position.y);
             }
 
 

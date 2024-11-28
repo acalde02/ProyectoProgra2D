@@ -1102,7 +1102,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nivel: 0
-  experiencia: 0
+  experiencia: 26
+  nivel1: 15
+  nivel2: 30
+  nivel3: 50
+  spritelvl1: {fileID: 21300000, guid: 44ec5f33decb8ad4fb58ae5d0a3e6f4f, type: 3}
+  spritelvl2: {fileID: 21300000, guid: 48044b14a69c7034e9e3fa4f7e95c27e, type: 3}
+  spritelvl3: {fileID: 21300000, guid: d297a127ee2cf504cbb694226641f817, type: 3}
 --- !u!1 &730131783
 GameObject:
   m_ObjectHideFlags: 0
@@ -7317,7 +7323,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 966067112}
