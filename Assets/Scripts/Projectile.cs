@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
@@ -34,7 +35,7 @@ public class Projectile : MonoBehaviour
         CancelInvoke(nameof(DestroyProjectile)); // Cancelar destrucción automática si se desactiva
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private async void OnTriggerEnter2D(Collider2D other)
     {
         if (_isDestroyed) return; // Evitar múltiples interacciones simultáneas
 
@@ -43,6 +44,7 @@ public class Projectile : MonoBehaviour
             asteroide_logica asteroidScript = other.GetComponent<asteroide_logica>();
             if (asteroidScript != null)
             {
+                await Task.Delay(30);
                 asteroidScript.hacerDanio(damage);
             }
             DestroyProjectile();
