@@ -15,6 +15,8 @@ public class ProjectileSpawner : MonoBehaviour
     
     [SerializeField] private float fireRate;
 
+    [SerializeField] private GameObject player;
+
     private bool _canSpawn = true;
 
     private void Start()
@@ -24,24 +26,66 @@ public class ProjectileSpawner : MonoBehaviour
 
     private void OnFirePerformed()
     {
+        GameObject player = GameObject.Find("Player");
+        LvlControler script_puntos = player.GetComponent<LvlControler>();
+        int nivel_actual =  script_puntos.Getnivel();
+
         if (!_canSpawn) return;
 
         _canSpawn = false;
         StartCoroutine(SpawnCooldown());
 
-        GameObject projectile;
+        GameObject projectile = null;
 
-        if (projectilePool.childCount <= 0)
+
+
+
+
+        if( nivel_actual == 0)
         {
-            // Aquí se asegura que la rotación coincida con el spawnPoint
-            projectile = Instantiate(projectilePrefab, spawnPoint.position, spawnPoint.rotation);
+            if (projectilePool.childCount <= 0)
+            {
+                // Aquí se asegura que la rotación coincida con el spawnPoint
+                projectile = Instantiate(projectilePrefab, spawnPoint.position, spawnPoint.rotation);
+            }
+            else
+            {
+                projectile = projectilePool.GetChild(0).gameObject;
+                projectile.transform.position = spawnPoint.position;
+                projectile.transform.rotation = spawnPoint.rotation; // Ajustar la rotación aquí
+                projectile.SetActive(true);
+            }
+
         }
-        else
+
+
+
+
+        if (nivel_actual == 1)
         {
-            projectile = projectilePool.GetChild(0).gameObject;
-            projectile.transform.position = spawnPoint.position;
-            projectile.transform.rotation = spawnPoint.rotation; // Ajustar la rotación aquí
-            projectile.SetActive(true);
+            
+            if (projectilePool.childCount <= 0)
+            {
+                // Aquí se asegura que la rotación coincida con el spawnPoint
+                projectile = Instantiate(projectilePrefab, new Vector2(spawnPoint.position.x - 0.1f,spawnPoint.position.y) , spawnPoint.rotation);
+
+                projectile = Instantiate(projectilePrefab, new Vector2(spawnPoint.position.x + 0.1f, spawnPoint.position.y), spawnPoint.rotation);
+                Debug.Log("disparando lvl1");
+            }
+            else
+            {
+                projectile = projectilePool.GetChild(0).gameObject;
+                projectile.transform.position = new Vector2(spawnPoint.position.x + 0.1f, spawnPoint.position.y);
+                projectile.transform.rotation = spawnPoint.rotation; // Ajustar la rotación aquí
+                projectile.SetActive(true);
+
+                projectile = projectilePool.GetChild(0).gameObject;
+                projectile.transform.position = new Vector2(spawnPoint.position.x - 0.1f, spawnPoint.position.y);
+                projectile.transform.rotation = spawnPoint.rotation; // Ajustar la rotación aquí
+                projectile.SetActive(true);
+                Debug.Log("disparando lvl1");
+            }
+
         }
 
         projectile.transform.SetParent(activeProjectilePool);

@@ -1379,7 +1379,7 @@ ParticleSystem:
   startDelay:
     serializedVersion: 2
     minMaxState: 0
-    scalar: 0
+    scalar: 3
     minScalar: 0
     maxCurve:
       serializedVersion: 2
@@ -36182,6 +36182,7 @@ MonoBehaviour:
   projectileLifeTime: 5
   despawnLifetime: 0
   fireRate: 1
+  player: {fileID: 715148353}
 --- !u!1 &2089230808
 GameObject:
   m_ObjectHideFlags: 0

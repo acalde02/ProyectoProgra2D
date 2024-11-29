@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LvlControler : MonoBehaviour
 {
-    [SerializeField] private float nivel = 0;
+    [SerializeField] private int nivel = 0;
     [SerializeField] private float experiencia = 0;
     [SerializeField] private int nivel1;
     [SerializeField] private int nivel2;
@@ -13,7 +13,11 @@ public class LvlControler : MonoBehaviour
     public Sprite spritelvl2;
     public Sprite spritelvl3;
 
-
+    public int Getnivel()
+    {
+        return nivel;
+    }
+    
     public void AddExperiencia(float value) // Método para sumar experiencia
     {
         experiencia += value;

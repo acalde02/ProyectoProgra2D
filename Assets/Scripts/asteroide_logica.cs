@@ -15,8 +15,8 @@ public class asteroide_logica : MonoBehaviour
     }
     public float Vida
     {
-        get { return vida; } // Obtener el valor actual
-        set { vida = value; } // Asignar un nuevo valor
+        get { return vida; } 
+        set { vida = value; } 
     }
     public void hacerDanio(float vida_quitar)
     {

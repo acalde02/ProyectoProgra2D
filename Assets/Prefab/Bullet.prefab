@@ -135,7 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   lifeTime: 3
-  damage: 5
+  damage: 50
   projectile: {fileID: 70719023289257485}
   explosion: {fileID: 8783536917560512420}
 --- !u!50 &-694330557747706135
