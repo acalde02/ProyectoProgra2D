@@ -537,6 +537,37 @@ Transform:
   - {fileID: 878168417}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &426270114
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 426270115}
+  m_Layer: 0
+  m_Name: ProjectileSpawner lvl 2r
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &426270115
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 426270114}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.064, y: -0.015, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2079105442}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &468051537
 GameObject:
   m_ObjectHideFlags: 0
@@ -6094,6 +6125,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 715148354}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!1 &837030118
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 837030119}
+  m_Layer: 0
+  m_Name: ProjectileSpawner lvl 2l
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &837030119
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 837030118}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.042, y: -0.013, z: -0.045816194}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2079105442}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &871661861
 GameObject:
   m_ObjectHideFlags: 0
@@ -36142,7 +36204,7 @@ GameObject:
   - component: {fileID: 2079105442}
   - component: {fileID: 2079105443}
   m_Layer: 0
-  m_Name: ProjectileSpawner
+  m_Name: ProjectileSpawner lvl 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36157,10 +36219,12 @@ Transform:
   m_GameObject: {fileID: 2079105441}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.042, y: 0.217, z: 0.045816194}
+  m_LocalPosition: {x: -0.051, y: 0.217, z: 0.045816194}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 837030119}
+  - {fileID: 426270115}
   m_Father: {fileID: 715148354}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2079105443
@@ -36183,6 +36247,8 @@ MonoBehaviour:
   despawnLifetime: 0
   fireRate: 1
   player: {fileID: 715148353}
+  spawnPointlvl2r: {fileID: 426270115}
+  spawnPointlvl2l: {fileID: 837030119}
 --- !u!1 &2089230808
 GameObject:
   m_ObjectHideFlags: 0
