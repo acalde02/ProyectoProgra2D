@@ -78,6 +78,17 @@ public class SpaceshipController : MonoBehaviour
 
 
         }
+        if (collision.gameObject.name == "velocidad boost")
+        {
+            speed += 13;
+        }
+
+
+
+
+
+
+
         /*if ((collision.gameObject.CompareTag("asteroide"))){
            
             Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();

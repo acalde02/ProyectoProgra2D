@@ -6812,7 +6812,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefapasteroide: {fileID: 1172372069}
-  numeroAsteroides: 50
+  numeroAsteroides: 100
   spawnArea: {x: 33, y: 33}
   sizeRange: {x: 1, y: 4}
   asteroidContainer: {fileID: 1712087096}

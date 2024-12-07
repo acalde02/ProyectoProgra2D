@@ -11,8 +11,5 @@ public class vidaBoost : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  
 }
