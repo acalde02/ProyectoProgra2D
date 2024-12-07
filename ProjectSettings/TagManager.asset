@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - limite
   - asteroide
+  - ProjectilePool
+  - ActiveProjectilePool
   layers:
   - Default
   - TransparentFX
