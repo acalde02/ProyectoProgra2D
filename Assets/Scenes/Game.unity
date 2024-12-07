@@ -562,7 +562,7 @@ Transform:
   m_GameObject: {fileID: 426270114}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.064, y: -0.015, z: 0}
+  m_LocalPosition: {x: -0.05, y: -0.015, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -752,6 +752,68 @@ MonoBehaviour:
   player: {fileID: 715148354}
   offset: {x: 0, y: 0, z: 0}
   smoothTime: 0.3
+--- !u!1 &651016134
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 651016135}
+  m_Layer: 0
+  m_Name: ProjectileSpawnerlvl 3l
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &651016135
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651016134}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.091, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2079105442}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &651216077
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 651216078}
+  m_Layer: 0
+  m_Name: ProjectileSpawnerlvl 3r
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &651216078
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 651216077}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.088, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2079105442}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &688401033
 GameObject:
   m_ObjectHideFlags: 0
@@ -6150,7 +6212,7 @@ Transform:
   m_GameObject: {fileID: 837030118}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.042, y: -0.013, z: -0.045816194}
+  m_LocalPosition: {x: 0.053, y: -0.009, z: -0.045816194}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6920,6 +6982,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   vida: 0
   puntos: 0
+  prefap_boost_vida: {fileID: 2258137411614995884, guid: bb56cdc38fb9cda4887484bb80a68db5, type: 3}
+  prefap_boost_valocidad_disparo: {fileID: 5614417807173118170, guid: d2f141db3231ea0499b91842faf536b6, type: 3}
+  prefap_boost_velocidad_jugador: {fileID: 7368683101021575587, guid: 76bfcc3d5b93cab41acb613111f1726f, type: 3}
+  "prefap_boost_da\xF1o": {fileID: 6067642909130249234, guid: 94435fe50c8954f47b763b3ca08eb966, type: 3}
 --- !u!58 &1172372075
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -36223,8 +36289,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 837030119}
   - {fileID: 426270115}
+  - {fileID: 837030119}
+  - {fileID: 651216078}
+  - {fileID: 651016135}
   m_Father: {fileID: 715148354}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2079105443
@@ -36249,6 +36317,8 @@ MonoBehaviour:
   player: {fileID: 715148353}
   spawnPointlvl2r: {fileID: 426270115}
   spawnPointlvl2l: {fileID: 837030119}
+  spawnPointlvl4r: {fileID: 651216078}
+  spawnPointlvl4l: {fileID: 651016135}
 --- !u!1 &2089230808
 GameObject:
   m_ObjectHideFlags: 0
