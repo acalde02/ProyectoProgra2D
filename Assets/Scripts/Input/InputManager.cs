@@ -80,4 +80,12 @@ public class InputManager : MonoBehaviour
         _inputActions.Player.Disable();
         _inputActions.UI.Enable();
     }
+    
+    
+    public void DisableAllInputs()
+    {
+        Debug.Log("Disabling all inputs.");
+        _inputActions.Player.Disable();
+        _inputActions.UI.Disable();
+    }
 }

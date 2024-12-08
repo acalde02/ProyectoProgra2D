@@ -15,6 +15,7 @@ TagManager:
   - velocidad
   - velocidad_disparo
   - "da\xF1o"
+  - PlayerHitbox
   layers:
   - Default
   - TransparentFX

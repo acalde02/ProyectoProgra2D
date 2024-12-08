@@ -59,9 +59,9 @@ public class Projectile : MonoBehaviour
             DestroyProjectile();
         }
 
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("PlayerHitbox"))
         {
-            other.GetComponent<Health>()?.TakeDamage(damage);
+            GameObject.FindWithTag("Player").GetComponent<Health>()?.TakeDamage(damage);
             DestroyProjectile();
         }
 

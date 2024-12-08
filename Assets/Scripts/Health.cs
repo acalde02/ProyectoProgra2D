@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Health : MonoBehaviour
 {
@@ -59,6 +60,13 @@ public class Health : MonoBehaviour
     private void Death()
     {
         Debug.Log("Player has died!");
+        // Accede a las funciones del InputManager
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.DisableAllInputs();
+        }
+
+        SceneManager.LoadScene(2);
         // Add death logic here
     }
 }

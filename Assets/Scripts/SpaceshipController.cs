@@ -101,6 +101,7 @@ public class SpaceshipController : MonoBehaviour
             spawnerbala.GetComponent<ProjectileSpawner>().cambiarvelocidad(0.5f);
             collision.gameObject.GetComponent<Boost>().Destruirme();
         }
+        
 
 
 
@@ -118,4 +119,12 @@ public class SpaceshipController : MonoBehaviour
             }
         }*/
     }
+    
+    
+    
+    protected void CallDeath()
+    {
+        
+    }
+    
 }

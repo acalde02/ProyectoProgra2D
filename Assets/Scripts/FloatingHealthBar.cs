@@ -8,9 +8,10 @@ public class FloatingHealthBar : MonoBehaviour
     [SerializeField] public Transform target;
     [SerializeField] Vector2 offset;
     
-    private void Start()
+    private void OnEnable()
     {
         camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        UpdateHealthBar(1, 1);
         // Assign the main camera if it's not already assigned
         if (camera == null)
         {

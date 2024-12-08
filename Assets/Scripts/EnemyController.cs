@@ -55,6 +55,7 @@ public class EnemyController : MonoBehaviour
         _agent.speed = moveSpeed; // Configurar velocidad mediante SerializeField
         healthBar = GetComponentInChildren<FloatingHealthBar>();
         currentHealth = maxHealth;
+        _isDestroyed = false;
 
         // Encuentra al jugador
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
@@ -218,12 +219,23 @@ public class EnemyController : MonoBehaviour
         if (_isDestroyed) return; // Evitar múltiples llamadas a la destrucción
         
         _isDestroyed = true;
+        currentHealth = maxHealth;
         enemyPrefabComponents.SetActive(false); // Desactivar el modelo del enemigo
         explosion.SetActive(true); // Activar la explosión
         _anim.Play(_explosionHash); // Reproducir animación de explosión
+        explosion.SetActive(false);
+        GameObject.FindWithTag("Player").GetComponent<LvlControler>().AddExperiencia(30);
         
-        // Esperar a que termine la animación de explosión antes de desactivar el GameObject
-        Invoke(nameof(ReturnToPool), GetAnimationClipLength("EnemyExplosion")); // Ajusta el tiempo según la duración de la animación
+        float animationDuration = GetAnimationClipLength("EnemyExplosion");
+
+        // Reproduce la animación y espera a que termine antes de realizar otras acciones
+        Invoke(nameof(PlayExplosionIdle), animationDuration); // Cambia al estado idle después de la explosión
+        Invoke(nameof(ReturnToPool), animationDuration + 0.1f); // Desactiva el GameObject después
+    }
+    
+    private void PlayExplosionIdle()
+    {
+        _anim.Play(_explosionIdleHash);
     }
 
     private float GetAnimationClipLength(string clipName)
@@ -245,6 +257,7 @@ public class EnemyController : MonoBehaviour
                 }
             }
         }
+        
 
         Debug.LogWarning($"Animation clip '{clipName}' not found in Animator!");
         return 0f; // Return 0 if the clip is not found
