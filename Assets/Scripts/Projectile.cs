@@ -46,7 +46,15 @@ public class Projectile : MonoBehaviour
             if (asteroidScript != null)
             {
                 await Task.Delay(30);
-                asteroidScript.hacerDanio(damage);
+                if(asteroidScript != null)
+                {
+                    asteroidScript.hacerDanio(damage);
+                }
+                else
+                {
+                    return;
+                }
+                
             }
             DestroyProjectile();
         }
@@ -96,5 +104,9 @@ public class Projectile : MonoBehaviour
     private void DeactivateProjectile()
     {
         gameObject.SetActive(false); // Desactivar el objeto para reutilizarlo en el pool
+    }
+    public void cambiardaño(int danio)
+    {
+        damage = damage + danio;
     }
 }

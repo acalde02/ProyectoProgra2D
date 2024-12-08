@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 1778928965854086412}
   - component: {fileID: 4101533238305564347}
   - component: {fileID: -2773339782178137906}
+  - component: {fileID: -8005038126118416966}
   m_Layer: 0
   m_Name: fast shoot boost
-  m_TagString: Untagged
+  m_TagString: velocidad_disparo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -115,7 +116,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.22648844, y: -0.48533246}
@@ -148,3 +149,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-8005038126118416966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5614417807173118170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb96011115be3b845b4d9049a3fd57b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

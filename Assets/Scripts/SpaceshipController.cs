@@ -6,6 +6,8 @@ public class SpaceshipController : MonoBehaviour
     [Range(50f, 2000f)]
     [SerializeField] private float speed;
     [SerializeField] private float rotationSpeed = 5f;
+    [SerializeField] private GameObject bala;
+    [SerializeField] private GameObject spawnerbala;
 
     private Rigidbody2D _rb;
     private Vector2 _previousPosition; // Guarda la posición previa para revertir en caso de colisión
@@ -78,9 +80,26 @@ public class SpaceshipController : MonoBehaviour
 
 
         }
-        if (collision.gameObject.name == "velocidad boost")
+        if (collision.gameObject.tag == "velocidad")
         {
+            
             speed += 13;
+            collision.gameObject.GetComponent<Boost>().Destruirme();
+        }
+        if (collision.gameObject.tag == "vida")
+        {
+            gameObject.GetComponent<Health>().Heal(33);
+            collision.gameObject.GetComponent<Boost>().Destruirme();
+        }
+        if (collision.gameObject.tag == "daño")
+        {
+            bala.GetComponent<Projectile>().cambiardaño(1);
+            collision.gameObject.GetComponent<Boost>().Destruirme();
+        }
+        if (collision.gameObject.tag == "velocidad_disparo")
+        {
+            spawnerbala.GetComponent<ProjectileSpawner>().cambiarvelocidad(0.5f);
+            collision.gameObject.GetComponent<Boost>().Destruirme();
         }
 
 

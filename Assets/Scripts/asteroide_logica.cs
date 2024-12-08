@@ -26,13 +26,22 @@ public class asteroide_logica : MonoBehaviour
     }
     public void hacerDanio(float vida_quitar)
     {
-        vida = vida - vida_quitar;
-        Debug.Log("me quitaste vida mi vida ahora es" + vida + "menos" + vida_quitar);
-        if (vida <= 0)
+        if(vida_quitar == null)
         {
-            eliminarme();
-            Debug.Log("eliminaste un asteroide");
+            return;
         }
+        else
+        {
+            if (vida > vida_quitar)
+            {
+                vida = vida - vida_quitar;
+            }
+            else
+            {
+                eliminarme();
+            }
+        }
+      
     }
 
     public void eliminarme()

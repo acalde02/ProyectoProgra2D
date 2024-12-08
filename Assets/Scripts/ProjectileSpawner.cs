@@ -192,4 +192,10 @@ public class ProjectileSpawner : MonoBehaviour
         projectile.gameObject.SetActive(false);
         projectile.transform.SetParent(projectilePool);
     }
+    public void cambiarvelocidad(float cambio)
+    {
+        fireRate = fireRate - cambio;
+    }
+
+
 }

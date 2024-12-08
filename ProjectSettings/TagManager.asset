@@ -11,6 +11,10 @@ TagManager:
   - ActiveProjectilePool
   - EnemyPool
   - ActiveEnemyPool
+  - vida
+  - velocidad
+  - velocidad_disparo
+  - "da\xF1o"
   layers:
   - Default
   - TransparentFX
