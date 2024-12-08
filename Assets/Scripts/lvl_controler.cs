@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LvlControler : MonoBehaviour
 {
+    [SerializeField] GameObject experienceManager;
     [SerializeField] private int nivel = 0;
     [SerializeField] private float experiencia = 0;
     [SerializeField] private int nivel1;
@@ -12,17 +14,24 @@ public class LvlControler : MonoBehaviour
     public Sprite spritelvl1;
     public Sprite spritelvl2;
     public Sprite spritelvl3;
+    
+    private ExperienceManager _experienceManager;
+
+    private void Start()
+    {
+        _experienceManager = experienceManager.GetComponent<ExperienceManager>();
+    }
 
     public int Getnivel()
     {
         return nivel;
     }
     
-    public void AddExperiencia(float value) // Método para sumar experiencia
+    public void AddExperiencia(float value) // Mï¿½todo para sumar experiencia
     {
         experiencia += value;
         Debug.Log("experiencia");
-        // Comprobar y actualizar el nivel según la experiencia acumulada
+        // Comprobar y actualizar el nivel segï¿½n la experiencia acumulada
         GameObject player = GameObject.Find("PlayerBody");
         
 
@@ -36,7 +45,7 @@ public class LvlControler : MonoBehaviour
                     player.GetComponent<SpriteRenderer>().sprite = spritelvl1;
                     experiencia = experiencia - nivel1;
                     nivel = 1;
-                    Debug.Log("¡Subiste a nivel 2!");
+                    Debug.Log("ï¿½Subiste a nivel 2!");
                 }
                 break;
 
@@ -46,7 +55,7 @@ public class LvlControler : MonoBehaviour
                     player.GetComponent<SpriteRenderer>().sprite = spritelvl2;
                     experiencia = experiencia - nivel2;
                     nivel = 2;
-                    Debug.Log("¡Subiste a nivel 3!");
+                    Debug.Log("ï¿½Subiste a nivel 3!");
                 }
                 break;
 
@@ -56,15 +65,39 @@ public class LvlControler : MonoBehaviour
                     player.GetComponent<SpriteRenderer>().sprite = spritelvl3;
                     experiencia = experiencia - nivel3;
                     nivel = 3;
-                    Debug.Log("¡Subiste a nivel 4!");
+                    Debug.Log("ï¿½Subiste a nivel 4!");
                 }
                 break;
 
             default:
-                Debug.Log("No hay más niveles disponibles.");
+                Debug.Log("No hay mï¿½s niveles disponibles.");
                 break;
         }
+        
+        _experienceManager.UpdateInterface();
     }
+
+    public int ReturnGatheredExperience()
+    {
+        int gatheredExperience = (int)experiencia;
+        return gatheredExperience;
+    }
+
+    public int ReturnTotalExperience()
+    {
+        switch (nivel)
+        {
+            case 0:
+                return nivel1;
+            case 1:
+                return nivel2;
+            case 2:
+                return nivel3;
+            default:
+                return 0;
+        }
+    }
+    
 }
 
 
