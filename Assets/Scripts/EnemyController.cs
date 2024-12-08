@@ -205,9 +205,12 @@ public class EnemyController : MonoBehaviour
     
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
-        healthBar.UpdateHealthBar(currentHealth, maxHealth);
-        if (currentHealth <= 0)
+        if (currentHealth > damage)
+        {
+            currentHealth -= damage;
+            healthBar.UpdateHealthBar(currentHealth, maxHealth);
+        }
+        else
         {
             Die();
         }
