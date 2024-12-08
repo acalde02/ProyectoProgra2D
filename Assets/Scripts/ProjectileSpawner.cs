@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -25,10 +26,20 @@ public class ProjectileSpawner : MonoBehaviour
 
     private bool _canSpawn = true;
 
+
     private void Start()
     {
         InputManager.Instance.FirePerformed += OnFirePerformed;
     }
+
+    private void Update()
+    {
+        if (InputManager.Instance.IsFiring())
+        {
+            OnFirePerformed();
+        }
+    }
+
 
     private void OnFirePerformed()
     {

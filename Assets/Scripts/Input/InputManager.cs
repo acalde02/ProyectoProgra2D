@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
     public static InputManager Instance { get; private set; }
+    private bool _isFiring;
 
     private TestInpuActions _inputActions;
 
@@ -32,7 +33,8 @@ public class InputManager : MonoBehaviour
     private void Start()
     {
         _inputActions.Player.Jump.performed += JumpOnPerformed;
-        _inputActions.Player.Fire.performed += FireOnPerformed;
+        _inputActions.Player.Fire.started += FireOnStarted;
+        _inputActions.Player.Fire.canceled += FireOnCanceled;
         _inputActions.Player.Pause.performed += PauseOnPerformed;
         _inputActions.UI.UnPause.performed += UnPauseOnPerformed;
     }
@@ -49,9 +51,16 @@ public class InputManager : MonoBehaviour
         SwitchUIToPlayer();
     }
 
-    private void FireOnPerformed(InputAction.CallbackContext obj)
+    private void FireOnStarted(InputAction.CallbackContext obj)
     {
         FirePerformed?.Invoke();
+        _isFiring = true;
+    }
+    
+    private void FireOnCanceled(InputAction.CallbackContext obj)
+    {
+        FirePerformed = null;
+        _isFiring = false;
     }
 
     private void JumpOnPerformed(InputAction.CallbackContext obj)
@@ -87,5 +96,10 @@ public class InputManager : MonoBehaviour
         Debug.Log("Disabling all inputs.");
         _inputActions.Player.Disable();
         _inputActions.UI.Disable();
+    }
+    
+    public bool IsFiring()
+    {
+        return _isFiring;
     }
 }
