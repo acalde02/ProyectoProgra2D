@@ -4,11 +4,6 @@ using UnityEngine.AI;
 
 public class EnemyController : MonoBehaviour
 {
-    
-    [Header ("Enemy Objects")]
-    [SerializeField] private GameObject enemyPrefabComponents;
-    [SerializeField] private GameObject explosion;
-    
     [Header("Enemy Movement Settings")]
     [SerializeField] private float retreatDistance = 1f;    // Distancia para retroceder si está demasiado cerca
     [SerializeField] private float moveSpeed = 3.5f;        // Velocidad del enemigo (NavMeshAgent)
@@ -19,14 +14,14 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float shootRange = 5f;         // Rango máximo para disparar
     [SerializeField] private float fireRate = 1.5f;        // Tiempo entre disparos
     [SerializeField] private float projectileLifeTime, despawnLifetime = 2f;
-
-    private Transform projectilePool;      // Pool de proyectiles
-    private Transform activeProjectilePool; // Pool de proyectiles activos
+    
+    [Header("Projectile Pool Settings")]
+    [SerializeField] private Transform projectilePool;      // Pool de proyectiles
+    [SerializeField] private Transform activeProjectilePool; // Pool de proyectiles activos
     
     [Header ("Health Settings")]
     [SerializeField] private int maxHealth = 100;
     [SerializeField] FloatingHealthBar healthBar;
-    [SerializeField] private Animator animator;
     private int currentHealth;
 
     private NavMeshAgent _agent;
@@ -34,19 +29,10 @@ public class EnemyController : MonoBehaviour
     private float _nextFireTime;
     private bool _canSpawn = true;
     
-    private readonly int _explosionHash = Animator.StringToHash("EnemyExplosion");
-    private readonly int _explosionIdleHash = Animator.StringToHash("ExplosionIdle");
-
-    private Animator _anim;
-    private bool _isDestroyed; // Controla si el el enemigo ya fue destruido
     
     
 
-    private void Awake()
-    {
-        _anim = GetComponent<Animator>();
-    }
-    private void OnEnable()
+    private void Start()
     {
         // Inicializa el NavMeshAgent
         _agent = GetComponent<NavMeshAgent>();
@@ -60,7 +46,6 @@ public class EnemyController : MonoBehaviour
         GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
         if (playerObject != null)
         {
-            Debug.Log("Player found");
             _player = playerObject.transform;
         }
         else
@@ -70,30 +55,11 @@ public class EnemyController : MonoBehaviour
 
         // Asegura que el enemigo esté sobre el NavMesh
         EnsureAgentOnNavMesh();
-        
-        projectilePool = GameObject.FindGameObjectWithTag("ProjectilePool").GetComponent<Transform>();
-        activeProjectilePool = GameObject.FindGameObjectWithTag("ActiveProjectilePool").GetComponent<Transform>();
-        
     }
-    
-    
 
     private void Update()
     {
-        if (_player == null)
-        {
-            Debug.LogError("Player is null! Enemy cannot follow.");
-            return;
-        }
-
-        if (!_agent.isOnNavMesh)
-        {
-            Debug.LogError($"Enemy {name} is not on the NavMesh!");
-            return;
-        }
-        
-        _agent.SetDestination(_player.position);
-
+        if (_player == null || !_agent.isOnNavMesh) return;
 
         // Calcular la distancia al jugador
         float distanceToPlayer = Vector3.Distance(transform.position, _player.position);
@@ -213,50 +179,8 @@ public class EnemyController : MonoBehaviour
         }
     }
     
-    public void Die()
+    private void Die()
     {
-        if (_isDestroyed) return; // Evitar múltiples llamadas a la destrucción
-        
-        _isDestroyed = true;
-        enemyPrefabComponents.SetActive(false); // Desactivar el modelo del enemigo
-        explosion.SetActive(true); // Activar la explosión
-        _anim.Play(_explosionHash); // Reproducir animación de explosión
-        
-        // Esperar a que termine la animación de explosión antes de desactivar el GameObject
-        Invoke(nameof(ReturnToPool), GetAnimationClipLength("EnemyExplosion")); // Ajusta el tiempo según la duración de la animación
+        // Funcion al morir
     }
-
-    private float GetAnimationClipLength(string clipName)
-    {
-        if (animator == null)
-        {
-            Debug.LogError("Animator is not assigned to the EnemyController!");
-            return 0f; // Return a default value to prevent further errors
-        }
-        // Ensure the Animator's RuntimeAnimatorController is valid
-        if (animator.runtimeAnimatorController != null)
-        {
-            // Loop through all animation clips in the Animator's controller
-            foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips)
-            {
-                if (clip.name == clipName) // Check for a matching clip name
-                {
-                    return clip.length; // Return the length of the matching clip
-                }
-            }
-        }
-
-        Debug.LogWarning($"Animation clip '{clipName}' not found in Animator!");
-        return 0f; // Return 0 if the clip is not found
-    }
-
-    
-    private void ReturnToPool()
-    {
-        // Reset enemy visibility and deactivate
-        enemyPrefabComponents.SetActive(true); // Reset for reuse
-        gameObject.SetActive(false);
-        transform.SetParent(GameObject.FindWithTag("EnemyPool").transform); // Move back to the pool
-    }
-
 }

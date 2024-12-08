@@ -1,64 +1,43 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
     [SerializeField] public int maxHealth = 100;
+    [SerializeField] private Image healthBar;
     private int _currentHealth;
+    private float _maxHealthInverse;
 
-    // Reference to the Health UI Manager
-    private HealthUIManager _healthUIManager;
-
-    private void Start()
+    protected void Start()
     {
         _currentHealth = maxHealth;
-
-        // Find the Health UI Manager in the scene or set it via the inspector
-        _healthUIManager = FindObjectOfType<HealthUIManager>();
-        if (_healthUIManager != null)
-        {
-            _healthUIManager.InitializeHealthBar(maxHealth);
-        }
+        _maxHealthInverse = 1f/maxHealth;
     }
 
     public void TakeDamage(int damage)
     {
-        Debug.Log("Damage taken: " + damage);
         _currentHealth -= damage;
-        if (_currentHealth < 0)
+        if (_currentHealth <= 0)
         {
             _currentHealth = 0;
-        }
-
-        // Update the health bar
-        if (_healthUIManager != null)
-        {
-            _healthUIManager.UpdateHealthBar(_currentHealth);
-        }
-
-        if (_currentHealth == 0)
-        {
             Death();
         }
     }
 
-    public void Heal(int healAmount)
+    public void Heal(int heal)
     {
-        _currentHealth += healAmount;
-        if (_currentHealth > maxHealth)
-        {
-            _currentHealth = maxHealth;
-        }
-
-        // Update the health bar
-        if (_healthUIManager != null)
-        {
-            _healthUIManager.UpdateHealthBar(_currentHealth);
-        }
+        _currentHealth += heal;
     }
 
-    private void Death()
+    protected void UpdateHealthBar()
     {
-        Debug.Log("Player has died!");
-        // Add death logic here
+        healthBar.fillAmount = _currentHealth * _maxHealthInverse;
     }
+
+    protected virtual void Death()
+    {
+        
+    }
+    
+    
 }

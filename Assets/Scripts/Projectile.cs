@@ -38,7 +38,6 @@ public class Projectile : MonoBehaviour
     private async void OnTriggerEnter2D(Collider2D other)
     {
         if (_isDestroyed) return; // Evitar múltiples interacciones simultáneas
-        Debug.Log($"Collision detected with: {other?.gameObject.name} (Tag: {other?.tag})");
 
         if (other.CompareTag("asteroide"))
         {
@@ -59,14 +58,8 @@ public class Projectile : MonoBehaviour
 
         if (other.CompareTag("Enemy"))
         {
-            EnemyController enemy = other.GetComponent<EnemyController>();
-            
-            if (enemy != null)
-            {
-                enemy.TakeDamage(damage);
-                DestroyProjectile();
-            }
-            
+            other.GetComponent<EnemyController>()?.TakeDamage(damage);
+            DestroyProjectile();
         }
         
     }
