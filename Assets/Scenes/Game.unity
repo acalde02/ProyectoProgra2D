@@ -7085,7 +7085,7 @@ GameObject:
   - component: {fileID: 1297022187}
   m_Layer: 0
   m_Name: '==ACTIVENEMYPOOL== '
-  m_TagString: Untagged
+  m_TagString: ActiveEnemyPool
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35499,7 +35499,7 @@ GameObject:
   - component: {fileID: 1588612930}
   m_Layer: 0
   m_Name: ==ENEMYPOOL==
-  m_TagString: Untagged
+  m_TagString: EnemyPool
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
